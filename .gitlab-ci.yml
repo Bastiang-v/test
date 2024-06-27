@@ -1,0 +1,27 @@
+stages:
+  - scanning
+  - setup
+  - build
+  - deploy_to_cdn
+  - release
+
+variables:
+  NODE_IMAGE: "node:21-alpine"
+  CX_FLOW_FOLDERS_TO_SCAN: "./src"
+  NEXT_LINT: "yes"
+  NEXT_BUILD: "yes"
+  SONARCLOUD_GITHUBFLOW: "true"
+
+#-------------------------------
+# INCLUDES
+#-------------------------------
+include:
+  - project: BICE_Vida/shared/pipelines
+    ref: master
+    file: /pipeline-checkmarx/checkmarx.yml
+  - project: BICE_Vida/shared/pipelines
+    ref: master
+    file: /pipeline-spa-cdn/pipeline_spa_cloudfront_githubflow.yml
+  - project: BICE_Vida/shared/pipelines
+    ref: master
+    file: /pipeline-sonarcloud/sonarcloud_other.yml
